@@ -1,0 +1,131 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #cbd5e1;
+}
+html {
+  box-sizing: border-box;
+}
+
+header {
+  text-align: center;
+  font-size: 30px;
+  line-height: 1.4;
+  font-family: sans-serif;
+  margin: 10px;
+  padding: 10px;
+}
+.container {
+  padding: 20px;
+  border: 5px solid lightgrey;
+  border-radius: 3px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.book-review-form {
+  display: grid;
+  column-gap: 20px;
+  row-gap: 10px;
+  grid-template-columns: 1fr 1fr 1fr;
+  background-color: #475569;
+  grid-auto-flow: row;
+  margin-bottom: 40px;
+  padding: 16px 40px;
+  text-align: left;
+}
+
+.book-review-form input[type="text"] {
+  width: 100%;
+  color: black;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: 5px solid #475569;
+  border-radius: 20px;
+  cursor: pointer;
+}
+.book-review-form input::placeholder {
+  color: #475569;
+  font-size: 20px;
+}
+
+.book-review-form input[type="date"] {
+  width: 100%;
+  color: black;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: 5px solid #475569;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+input[type="number"] {
+  width: 100%;
+  color: black;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: 5px solid #475569;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.review {
+  grid-column-start: 1;
+  grid-column-end: 4;
+}
+
+.inputbox {
+  grid-column-start: 2;
+  grid-column-end: 4;
+}
+label {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  margin-bottom: 10px;
+  font-size: 20px;
+  text-align: center;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+select {
+  appearance: none;
+  outline: 0;
+  color: black;
+  background: #cbd5e1;
+  background-image: none;
+  width: 100%;
+  height: 30px;
+  padding: 14px 20px;
+  margin: 8px 0;
+  cursor: pointer;
+  border: 5px solid #475569;
+  border-radius: 20px;
+}
+
+.select {
+  position: relative;
+  color: black;
+  width: 100%;
+  line-height: 3;
+  overflow: hidden;
+  border-radius: 0.25em;
+  padding-bottom: 10px;
+}
+
+h1 {
+  color: #cbd5e1;
+}
+button {
+  border: 5px solid #475569;
+  border-radius: 20px;
+  text-align: center;
+  grid-column-start: 2;
+  grid-column-end: 3;
+  height: 40px;
+  padding: 5px 5px;
+  margin: 8px 0;
+  font-size: 20px;
+}
