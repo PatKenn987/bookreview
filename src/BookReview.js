@@ -1,13 +1,13 @@
 import "./bookformstyles.css";
 
-export default function BookReview() {
+function BookReview() {
   return (
     <>
       <header> Please add a new Book Review</header>
 
       <div className="container">
         <form className="book-review-form">
-          <label for="title">Provide Title for book</label>
+          <label className="title">Provide Title for book</label>
           <div className="inputbox">
             <input type="text" id="title" placeholder="Book Title" />
           </div>
@@ -61,3 +61,4 @@ export default function BookReview() {
     </>
   );
 }
+export default BookReview;
