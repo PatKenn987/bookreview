@@ -13,6 +13,7 @@ html {
 }
 
 header {
+  background-color: #475569;
   text-align: center;
   font-size: 30px;
   line-height: 1.4;
@@ -20,7 +21,7 @@ header {
   margin: 10px;
   padding: 10px;
 }
-.container {
+#root {
   padding: 20px;
   border: 5px solid lightgrey;
   border-radius: 3px;
@@ -167,12 +168,21 @@ li {
 
 .book-count {
   font-size: 30px;
-  /* color: red; */
   background-color: #94a3b8;
-  grid-column-start: span 2;
   margin: 5px;
   padding: 5px 5px;
   border-radius: 20px;
+}
+button.add {
+  font-size: 30px;
+  border: 5px solid #475569;
+  background-color: #94a3b8;
+  margin: 5px;
+  padding: 5px 5px;
+  text-align: center;
+}
+ul {
+  list-style: none;
 }
 
 span.counter {
