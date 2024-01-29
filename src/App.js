@@ -1,4 +1,3 @@
-import BookReview from "./BookReview";
 import DisplayBookList from "./bookList";
 
 function App() {
