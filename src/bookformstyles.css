@@ -284,3 +284,13 @@ p.review {
   padding: 5px 5px;
   border-radius: 20px;
 }
+
+.charCount {
+  font-size: 20px;
+  color: white;
+  background-color: #475569;
+  grid-column-start: 1;
+  margin: 5px;
+  padding: 5px 5px;
+  border-radius: 20px;
+}

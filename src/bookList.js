@@ -1,6 +1,7 @@
 import { useState } from "react";
 import BookReview from "./BookReview";
 import "./bookformstyles.css";
+
 const bookList = [
   {
     id: 1,
@@ -44,11 +45,10 @@ const bookList = [
     genre: 0,
   },
 ];
-
 function DisplayBookList() {
   const [showForm, setShowForm] = useState(false);
+  const [bookItems, setBookItems] = useState(bookList);
 
-  const bookItems = bookList;
   return (
     <>
       <header>
@@ -59,7 +59,9 @@ function DisplayBookList() {
         <button className="add" onClick={() => setShowForm((show) => !show)}>
           {showForm ? "Close without saving" : "Add a review"}
         </button>
-        {showForm ? <BookReview /> : null}
+        {showForm ? (
+          <BookReview setBookItems={setBookItems} setShowForm={setShowForm} />
+        ) : null}
       </header>
       <div className="book-list-container">
         <ul>

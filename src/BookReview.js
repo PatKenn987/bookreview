@@ -39,7 +39,7 @@ const NonFictionCategories = [
   { id: 13, name: "Technology" },
 ];
 
-function BookReview() {
+function BookReview({ setBookItems, setShowForm }) {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [startdate, setStartDate] = useState("");
@@ -49,10 +49,13 @@ function BookReview() {
   const [fiction, setFiction] = useState(false);
   const [genre, setGenre] = useState("");
   const [review, setReview] = useState("");
+  const reviewMaxLength = 1200;
 
+  /*The data presented in the Genre drop-down select box is dependant
+  on whether the book is fiction or non-fiction.  This function will
+  determine the current value of the checkbox and present the appropriate list based on that value
+  *****************************************************************/
   function ConfigureGenreSelect() {
-    console.log({ fiction });
-
     if (fiction === true) {
       return (
         <select
@@ -85,11 +88,82 @@ function BookReview() {
       );
     }
   }
+  /*This function will be called when the form is submitted (onSubmit)
+   *****************************************************************/
+  function DateCorrect() {
+    //Check if the end date is
+    if (startdate > enddate) return false;
+    else return true;
+  }
+  /*This function will be called when the form is submitted (onSubmit)
+   *****************************************************************/
+  function handleSubmit(e) {
+    //Prevent the browswer from reloading
+    e.preventDefault();
+    console.log(
+      title,
+      author,
+      startdate,
+      enddate,
+      rank,
+      user,
+      fiction,
+      genre,
+      review
+    );
+    //Ensure data is valid.  If so create new record
+
+    //Check that all of the fields have data in them.
+    if (
+      DateCorrect() &&
+      title &&
+      author &&
+      startdate &&
+      enddate &&
+      rank &&
+      user &&
+      fiction &&
+      genre &&
+      review
+    ) {
+      console.log("Data has been entered.");
+      //Create a new Book object
+      const newBook = {
+        id: Math.round(Math.random() * 10000000),
+        title,
+        author,
+        Started: startdate,
+        Finished: enddate,
+        Rating: rank,
+        Reviewer: user,
+        Review: review,
+        Fict: fiction,
+        genre,
+      };
+      console.log(newBook);
+
+      /*Add the new Book Object to the UI: add the Book Object  to the state.  First the new record is added to a new array and then the (...) spread operator will copy all fo the items in the old bookItems array after the new record*/
+      setBookItems((bookItems) => [newBook, ...bookItems]);
+
+      //Reset Input fields
+      setTitle("");
+      setAuthor("");
+      setStartDate("");
+      setEndDate("");
+      setRank("");
+      setUser("");
+      setFiction("");
+      setGenre("");
+      setReview("");
+      //Close the form
+      setShowForm(false);
+    }
+  }
 
   return (
     <>
       <header> Please add a new Book Review</header>
-      <form className="book-review-form">
+      <form className="book-review-form" onSubmit={handleSubmit}>
         <label className="title">Provide Title for book </label>
         <div className="inputbox">
           <input
@@ -167,6 +241,9 @@ function BookReview() {
         <div>
           <ConfigureGenreSelect />
         </div>
+        <p className="charCount">
+          ({reviewMaxLength - review.length} / {reviewMaxLength})
+        </p>
         <div className="review">
           <textarea
             className="textArea"
@@ -174,12 +251,13 @@ function BookReview() {
             cols="120"
             rows="5"
             id="review"
-            placeholder="Review"
-            maxLength="1200"
+            placeholder="Please Enter Review"
+            maxLength={reviewMaxLength}
             value={review}
             onChange={(e) => setReview(e.target.value)}
           />
         </div>
+
         <button>Save Review</button>
       </form>
     </>
