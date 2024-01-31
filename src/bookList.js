@@ -45,7 +45,8 @@ const bookList = [
     genre: 0,
   },
 ];
-function DisplayBookList() {
+
+export default function DisplayBookList() {
   const [showForm, setShowForm] = useState(false);
   const [bookItems, setBookItems] = useState(bookList);
 
@@ -91,5 +92,3 @@ function Book({ book }) {
     </li>
   );
 }
-
-export default DisplayBookList;

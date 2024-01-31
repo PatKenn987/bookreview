@@ -35,11 +35,11 @@ const NonFictionCategories = [
   { id: 9, name: "Plays" },
   { id: 10, name: "Politics" },
   { id: 11, name: "Psychology" },
-  { id: 12, name: "Self-help" },
-  { id: 13, name: "Technology" },
+  { id: 12, name: "Science" },
+  { id: 13, name: "Self-help" },
+  { id: 14, name: "Technology" },
 ];
-
-function BookReview({ setBookItems, setShowForm }) {
+export default function BookReview({ setBookItems, setShowForm }) {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [startdate, setStartDate] = useState("");
@@ -54,8 +54,10 @@ function BookReview({ setBookItems, setShowForm }) {
   /*The data presented in the Genre drop-down select box is dependant
   on whether the book is fiction or non-fiction.  This function will
   determine the current value of the checkbox and present the appropriate list based on that value
+    function ConfigureGenreSelect()
   *****************************************************************/
   function ConfigureGenreSelect() {
+    console.log(fiction);
     if (fiction === true) {
       return (
         <select
@@ -95,56 +97,49 @@ function BookReview({ setBookItems, setShowForm }) {
     if (startdate > enddate) return false;
     else return true;
   }
-  /*This function will be called when the form is submitted (onSubmit)
+  /*This function will be called when the form is submitted (onSubmit).  It will ensure that all of the data in the form is completed and perform error checking to ensure that the end date is after the start date.
+  If that is true a new Book object will be created and loaded with the data from the form.
+  The setBookItems State function will be called with a data structure that is a con-catenation of the new record and the current records in the array. After that the data will be cleared (not really a necessary step but tidy) and the form will be closed.
+
    *****************************************************************/
   function handleSubmit(e) {
     //Prevent the browswer from reloading
-    e.preventDefault();
-    console.log(
-      title,
-      author,
-      startdate,
-      enddate,
-      rank,
-      user,
-      fiction,
-      genre,
-      review
-    );
-    //Ensure data is valid.  If so create new record
 
+    //Ensure data is valid.  If so create new record
     //Check that all of the fields have data in them.
     if (
-      DateCorrect() &&
       title &&
       author &&
       startdate &&
       enddate &&
       rank &&
       user &&
-      fiction &&
       genre &&
       review
     ) {
-      console.log("Data has been entered.");
-      //Create a new Book object
-      const newBook = {
-        id: Math.round(Math.random() * 10000000),
-        title,
-        author,
-        Started: startdate,
-        Finished: enddate,
-        Rating: rank,
-        Reviewer: user,
-        Review: review,
-        Fict: fiction,
-        genre,
-      };
-      console.log(newBook);
+      //Do whatever error checking we can
+      if (DateCorrect()) {
+        console.log("Data has been entered.");
+        //Create a new Book object
+        const newBook = {
+          id: Math.round(Math.random() * 10000000),
+          title,
+          author,
+          Started: startdate,
+          Finished: enddate,
+          Rating: rank,
+          Reviewer: user,
+          Review: review,
+          Fict: fiction,
+          genre,
+        };
+        console.log(newBook);
 
-      /*Add the new Book Object to the UI: add the Book Object  to the state.  First the new record is added to a new array and then the (...) spread operator will copy all fo the items in the old bookItems array after the new record*/
-      setBookItems((bookItems) => [newBook, ...bookItems]);
-
+        /*Add the new Book Object to the UI: add the Book Object  to the state.  First the new record is added to a new array and then the (...) spread operator will copy all fo the items in the old bookItems array after the new record*/
+        setBookItems((bookItems) => [newBook, ...bookItems]);
+      } else {
+        //There was some error in the data
+      }
       //Reset Input fields
       setTitle("");
       setAuthor("");
@@ -157,6 +152,8 @@ function BookReview({ setBookItems, setShowForm }) {
       setReview("");
       //Close the form
       setShowForm(false);
+    } else {
+      //There was some missing data
     }
   }
 
@@ -230,13 +227,15 @@ function BookReview({ setBookItems, setShowForm }) {
             <option value="2">Ann Kennedy</option>
           </select>
         </div>
-        <label>Was this a fiction book?</label>
+        <label>Was this a fiction book? </label>
         <input
           type="checkbox"
           placeholder="Fiction"
-          checked={fiction}
-          onChange={(e) => setFiction(e.target.value)}
+          // checked={false}
+          // onChange={(e) => setFiction(e.target.value)}
+          onChange={(e) => setFiction(!fiction)}
         />
+
         <label>Please select genre</label>
         <div>
           <ConfigureGenreSelect />
@@ -263,4 +262,3 @@ function BookReview({ setBookItems, setShowForm }) {
     </>
   );
 }
-export default BookReview;
