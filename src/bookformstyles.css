@@ -137,6 +137,16 @@ button {
   font-size: 20px;
 }
 /*Book List formatting****************************************/
+
+.message {
+  text-align: center;
+  grid-column-start: 2;
+  grid-column-end: 4;
+  text-transform: uppercase;
+  font-size: 32px;
+  margin-top: 24px;
+}
+
 .book-list-container {
   display: grid;
   column-gap: 20px;
@@ -167,7 +177,6 @@ li {
   text-align: left;
   border-radius: 20px;
 }
-
 .book-count {
   font-size: 30px;
   height: 50px;
