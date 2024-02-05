@@ -136,6 +136,12 @@ button {
   margin: 8px 0;
   font-size: 20px;
 }
+
+button:hover {
+  transform: scale(110%) rotate(-2deg);
+  background-color: #cbd5e1;
+}
+
 /*Book List formatting****************************************/
 
 .message {
@@ -194,27 +200,52 @@ button.add {
   padding: 5px;
   text-align: center;
 }
-ul {
+.add:hover {
+  transform: scale(110%) rotate(-2deg);
+  background-color: #cbd5e1;
+}
+
+.filterButton {
   list-style: none;
+  font-size: 20px;
+  height: 50px;
+  width: 140px;
+  border: 5px solid #475569;
+  background-color: #94a3b8;
+  margin: 15px;
+  padding: 5px;
+  text-align: center;
+}
+.filterButton:hover {
+  transform: scale(110%) rotate(-2deg);
+}
+
+.row {
+  display: inline-block;
+  height: 40px;
+  margin: 10px;
+  /* padding: 5px 5px; */
 }
 
 span.counter {
+  /* display: grid; */
   font-size: 25px;
-  color: white;
-  background-color: #475569;
+  width: 100%;
+  /* color: white; */
+  height: 40px;
+  background-color: #94a3b8;
   grid-column-start: 1;
-  grid-column-end: 2;
-  margin: 5px;
+  margin: 15px;
   padding: 5px 5px;
   border-radius: 20px;
 }
-
-p.book-name {
-  font-size: 30px;
-  /* color: red; */
-  background-color: #94a3b8;
-  /* grid-column-start: span 2; */
-  margin: 5px;
+.book-name {
+  font-size: 25px;
+  /*color: red;*/
+  height: 40px;
+  background-color: #cbd5e1;
+  grid-column-start: 2;
+  margin: 20px;
   padding: 5px 5px;
   border-radius: 20px;
 }
@@ -223,6 +254,7 @@ span.author {
   font-size: 20px;
   color: white;
   background-color: #475569;
+  width: 100%;
   grid-column-start: 1;
   grid-column-end: 2;
   margin: 5px;
@@ -233,13 +265,15 @@ span.reviewer {
   font-size: 20px;
   color: white;
   background-color: #475569;
-  grid-column-start: 4;
+  width: 100%;
+  grid-column-start: 3;
   grid-column-end: 5;
   margin: 5px;
   padding: 5px 5px;
   border-radius: 20px;
 }
-p.started {
+
+span.started {
   font-size: 20px;
   color: white;
   background-color: #475569;
@@ -257,21 +291,24 @@ span.finished {
   padding: 5px 5px;
   border-radius: 20px;
 }
-p.rating {
+span.rating {
   font-size: 20px;
+  width: 200px;
   color: white;
   background-color: #475569;
-  /* grid-column-start: 3;
-  margin: 5px; */
+  grid-column-start: 1;
+  margin: 5px;
   padding: 5px 5px;
   border-radius: 20px;
 }
 span.fict {
   font-size: 20px;
+
+  width: 200px;
   color: white;
   background-color: #475569;
-  /* grid-column-start: 3;
-  margin: 5px; */
+  grid-column-start: 3;
+  margin: 5px;
   padding: 5px 5px;
   border-radius: 20px;
 }
@@ -279,18 +316,18 @@ span.genre {
   font-size: 20px;
   color: white;
   background-color: #475569;
-  /* grid-column-start: 3;
-  margin: 5px; */
+  grid-column-start: 3;
+  margin: 5px;
   padding: 5px 5px;
   border-radius: 20px;
 }
 
-p.review {
+.review {
   font-size: 25px;
   /* color: tomato;*/
   background-color: #94a3b8;
-  grid-column-start: 3;
-  grid-column-end: 3;
+  grid-column-start: 1;
+  grid-column-end: 4;
   margin: 10px;
   padding: 5px 5px;
   border-radius: 20px;

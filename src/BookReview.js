@@ -3,25 +3,25 @@ import supabase from "./supabase";
 import "./bookformstyles.css";
 
 const FictionCategories = [
-  { id: 1, name: "Adventure" },
-  { id: 2, name: "Classics" },
-  { id: 3, name: "Crime" },
-  { id: 4, name: "Folk tales" },
-  { id: 5, name: "Fantasy" },
-  { id: 6, name: "Historical Fiction" },
-  { id: 7, name: "Horror" },
-  { id: 8, name: "Humor and Satire" },
-  { id: 9, name: "Literary Fiction" },
-  { id: 10, name: "Mystery" },
-  { id: 11, name: "Poetry" },
-  { id: 12, name: "Plays" },
-  { id: 13, name: "Romance" },
-  { id: 14, name: "Science Fiction" },
-  { id: 15, name: "Short Stories" },
-  { id: 16, name: "Thrillers" },
-  { id: 17, name: "War" },
-  { id: 18, name: "Women's Fiction" },
-  { id: 19, name: "Young Adult" },
+  { id: 101, name: "Adventure" },
+  { id: 102, name: "Classics" },
+  { id: 103, name: "Crime" },
+  { id: 104, name: "Folk tales" },
+  { id: 105, name: "Fantasy" },
+  { id: 106, name: "Historical Fiction" },
+  { id: 107, name: "Horror" },
+  { id: 108, name: "Humor and Satire" },
+  { id: 109, name: "Literary Fiction" },
+  { id: 110, name: "Mystery" },
+  { id: 111, name: "Poetry" },
+  { id: 112, name: "Plays" },
+  { id: 113, name: "Romance" },
+  { id: 114, name: "Science Fiction" },
+  { id: 115, name: "Short Stories" },
+  { id: 116, name: "Thrillers" },
+  { id: 117, name: "War" },
+  { id: 118, name: "Women's Fiction" },
+  { id: 119, name: "Young Adult" },
 ];
 
 const NonFictionCategories = [
@@ -43,14 +43,19 @@ const NonFictionCategories = [
 export default function BookReview({ setBookItems, setShowForm }) {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
-  const [startdate, setStartDate] = useState("");
-  const [enddate, setEndDate] = useState("");
-  const [rank, setRank] = useState("");
-  const [user, setUser] = useState("");
-  const [fiction, setFiction] = useState(false);
+  const [started, setStartDate] = useState("");
+  const [finished, setEndDate] = useState("");
+  const [rating, setRank] = useState("");
+  const [reviewer, setUser] = useState("");
+  const [fict, setFiction] = useState(false);
   const [genre, setGenre] = useState("");
   const [review, setReview] = useState("");
   const reviewMaxLength = 1200;
+
+  //When a fact is being uploaded to the database, we want to
+  //1) Make sure the user does not hit the Submit button multiple //times and enter multiple recorse
+  //2) Keep the user informed of the current status.
+  const [isUploading, setIsUploading] = useState("false");
 
   /*The data presented in the Genre drop-down select box is dependant
   on whether the book is fiction or non-fiction.  This function will
@@ -58,8 +63,7 @@ export default function BookReview({ setBookItems, setShowForm }) {
     function ConfigureGenreSelect()
   *****************************************************************/
   function ConfigureGenreSelect() {
-    console.log(fiction);
-    if (fiction === true) {
+    if (fict === true) {
       return (
         <select
           placeholder="Select Genre:"
@@ -95,7 +99,7 @@ export default function BookReview({ setBookItems, setShowForm }) {
    *****************************************************************/
   function DateCorrect() {
     //Check if the end date is
-    if (startdate > enddate) return false;
+    if (started > finished) return false;
     else return true;
   }
   /*This function will be called when the form is submitted (onSubmit).  It will ensure that all of the data in the form is completed and perform error checking to ensure that the end date is after the start date.
@@ -103,7 +107,7 @@ export default function BookReview({ setBookItems, setShowForm }) {
   The setBookItems State function will be called with a data structure that is a con-catenation of the new record and the current records in the array. After that the data will be cleared (not really a necessary step but tidy) and the form will be closed.
 
    *****************************************************************/
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     //Prevent the browswer from reloading
 
     //Ensure data is valid.  If so create new record
@@ -111,36 +115,44 @@ export default function BookReview({ setBookItems, setShowForm }) {
     if (
       title &&
       author &&
-      startdate &&
-      enddate &&
-      rank &&
-      user &&
+      started &&
+      finished &&
+      rating &&
+      reviewer &&
       genre &&
       review
     ) {
+      // console.log("Data all there");
       //Do whatever error checking we can
       if (DateCorrect()) {
-        console.log("Data has been entered.");
-        //Create a new Book object
-        const newBook = {
-          id: Math.round(Math.random() * 10000000),
-          title,
-          author,
-          Started: startdate,
-          Finished: enddate,
-          Rating: rank,
-          Reviewer: user,
-          Review: review,
-          Fict: fiction,
-          genre,
-        };
-        console.log(newBook);
+        //Set the isUploading state to true indicating that we are about to upload a fact to the database
+        setIsUploading(true);
 
+        //Upload fact to supabase and receive the new fact object
+        const { data: newBook, error } = await supabase
+          .from("booklist")
+          .insert([
+            {
+              title,
+              author,
+              started,
+              genre,
+              finished,
+              rating,
+              reviewer,
+              review,
+              fict,
+            },
+          ])
+          .select();
+        setIsUploading(false);
+        console.log(newBook);
         /*Add the new Book Object to the UI: add the Book Object  to the state.  First the new record is added to a new array and then the (...) spread operator will copy all fo the items in the old bookItems array after the new record*/
-        setBookItems((bookItems) => [newBook, ...bookItems]);
+        setBookItems((bookItems) => [newBook[0], ...bookItems]);
       } else {
         //There was some error in the data
       }
+
       //Reset Input fields
       setTitle("");
       setAuthor("");
@@ -190,7 +202,7 @@ export default function BookReview({ setBookItems, setShowForm }) {
             type="date"
             id="startDate"
             placeholder="Start Date"
-            value={startdate}
+            value={started}
             onChange={(e) => setStartDate(e.target.value)}
           />
         </div>
@@ -200,7 +212,7 @@ export default function BookReview({ setBookItems, setShowForm }) {
             type="date"
             id="finishDate"
             placeholder="End Date"
-            value={enddate}
+            value={finished}
             onChange={(e) => setEndDate(e.target.value)}
           />
         </div>
@@ -211,21 +223,21 @@ export default function BookReview({ setBookItems, setShowForm }) {
             placeholder="Rating (0-5)"
             min="0"
             max="5"
-            value={rank}
+            value={rating}
             onChange={(e) => setRank(e.target.value)}
           />
         </div>
         <label>Who are you?</label>
         <div className="select">
           <select
-            value={user}
+            value={reviewer}
             name="slct"
             id="slct"
             onChange={(e) => setUser(e.target.value)}
           >
             <option value="">Choose User</option>
-            <option value="1">Patrick Kennedy</option>
-            <option value="2">Ann Kennedy</option>
+            <option value="Patrick Kennedy">Patrick Kennedy</option>
+            <option value="Ann Kennedy">Ann Kennedy</option>
           </select>
         </div>
         <label>Was this a fiction book? </label>
@@ -234,7 +246,7 @@ export default function BookReview({ setBookItems, setShowForm }) {
           placeholder="Fiction"
           // checked={false}
           // onChange={(e) => setFiction(e.target.value)}
-          onChange={(e) => setFiction(!fiction)}
+          onChange={(e) => setFiction(!fict)}
         />
 
         <label>Please select genre</label>
@@ -258,7 +270,7 @@ export default function BookReview({ setBookItems, setShowForm }) {
           />
         </div>
 
-        <button>Save Review</button>
+        <button disabled={!isUploading}>Save Review</button>
       </form>
     </>
   );
